@@ -1,3 +1,4 @@
+alert("I am connected")
 //1. Select the parts(like finding the terminals)
 const streakDisplay = document.getElementById('streak-display');
 const messageLog = document.getElemrntById('message-log');
