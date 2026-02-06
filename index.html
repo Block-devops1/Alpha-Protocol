@@ -2,22 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device,initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atomic Streak</title>
+    <style>
+        /* THE SKIN (CSS) */
+        body { font-family: 'Courier New', monospace; background-color: #1a1a1a; color: #fff; text-align: center; padding: 50px; }
+        .container { max-width: 400px; margin: 0 auto; border: 2px solid #333; padding: 20px; border-radius: 10px; }
+        h1 { color: #00ff00; }
+        .card { background: #333; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        #streak-display { font-size: 40px; font-weight: bold; margin: 10px 0; }
+        button { padding: 15px 25px; font-size: 16px; cursor: pointer; border: none; border-radius: 5px; margin: 5px; }
+        #check-in-btn { background-color: #00ff00; color: #000; font-weight: bold; }
+        #reset-btn { background-color: #ff4444; color: #fff; }
+        #message-log { margin-top: 20px; font-size: 14px; color: #888; }
+    </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Atomic Streak</h1>
-        <div class="streak-display">0 Days</div>
 
-        <div class="controls"></div>
-        <button id="check-in-btn">I DID IT</button>
-        <button id="rest-btn" class="danger">I Relapsed</button>
+        <div class="card">
+            <h2>Current Streak</h2>
+            <p id="streak-display">0 Days</p> 
+        </div>
+
+        <div class="controls">
+            <button id="check-in-btn">✅ I Did It</button>
+            <button id="reset-btn">❌ I Relapsed</button>
+        </div>
+        
+        <p id="message-log">System Ready.</p>
     </div>
-    <div>
-        <p id="message-log">Waiting for input</p>
-    </div>
-    <script src="client.js"></script>
+
+    <script>
+        // THE BRAIN (JS)
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. SELECT THE PARTS
+            const streakDisplay = document.getElementById('streak-display');
+            const messageLog = document.getElementById('message-log');
+            const checkInBtn = document.getElementById('check-in-btn');
+            const resetBtn = document.getElementById('reset-btn');
+
+            // 2. LOAD FROM MEMORY
+            let storedCount = localStorage.getItem('atomicStreakCount');
+            let count = storedCount ? parseInt(storedCount) : 0;
+            streakDisplay.innerText = count + " Days";
+
+            // 3. CHECK IN BUTTON
+            checkInBtn.addEventListener('click', function() {
+                count++;
+                streakDisplay.innerText = count + " Days";
+                localStorage.setItem('atomicStreakCount', count);
+                messageLog.innerText = "Good job. Streak Saved.";
+                messageLog.style.color = "#00ff00"; // Green
+            });
+
+            // 4. RESET BUTTON
+            resetBtn.addEventListener('click', function() {
+                count = 0;
+                streakDisplay.innerText = count + " Days";
+                localStorage.setItem('atomicStreakCount', count);
+                messageLog.innerText = "Streak Reset. Start again.";
+                messageLog.style.color = "#ff4444"; // Red
+            });
+        });
+    </script>
+
 </body>
 </html>
+
